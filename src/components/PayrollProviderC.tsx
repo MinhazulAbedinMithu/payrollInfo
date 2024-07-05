@@ -124,36 +124,6 @@ const PayrollProvider: React.FC = () => {
       JSON.stringify({ ...payrollInfo, verified })
     );
   };
-
-  
-  
-
-  // const handleSubmits = () => {
-  //   if (payrollType === "in-house") {
-  //     const payroll: payrollForInHouse = {
-  //       payrollType,
-  //       payrollSoftware: payrollValue,
-  //     };
-  //     setPayrollInfo(payroll);
-  //     setPayrollStep(1);
-  //     //   localStorage.setItem("payroll", JSON.stringify(payroll));
-  //   } else {
-  //     const payroll: PayrollInfo = {
-  //       payrollType,
-  //       payrollCompanyName: payrollValue,
-  //       payrollCompanyContact: companyContact,
-  //       payrollCompanyEmail: companyPhone,
-  //       payrollCompanyPhone: companyEmail,
-
-  //     };
-
-  //     setPayrollInfo(payroll);
-  //     setPayrollStep(1);
-  //     console.log({ payroll });
-
-  //     //   localStorage.setItem("payroll", JSON.stringify(payroll));
-  //   }
-  // };
   const {
     register,
     handleSubmit,
@@ -201,7 +171,7 @@ const PayrollProvider: React.FC = () => {
     payrollCompanyContent = (
       <>
         <div className=" w-full flex flex-col my-4 md:flex-row items-start justify-start gap-3 md:gap-14">
-          <SideHeading title={payrollInfoData.payrollType.title}/>
+          <SideHeading title={payrollInfoData.payrollType.title} subTitle="long text. Tell us more about your payroll. Tell us more about your payroll" />
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid grid-cols-2 gap-4">
              
@@ -373,7 +343,7 @@ const PayrollProvider: React.FC = () => {
         {payrollInfo?.payrollType !== "in-house" && (
           <div className="flex flex-col my-4 md:flex-row items-start justify-start gap-3 md:gap-14 w-full">
            
-            <SideHeading title={payrollInfoData.payrollType.title}/>
+            <SideHeading title={payrollInfoData.payrollType.title} />
             <div className="w-full">
             <TextWithDots leftText="Payroll Company Contact" rightText={payrollInfo?.payrollCompanyContact as string} />
               <TextWithDots leftText="Payroll Company Email" rightText={payrollInfo?.payrollCompanyEmail as string} />
