@@ -22,8 +22,10 @@ const validationSchemaCompanyIdentifier = Yup.object().shape({
     ein: Yup.number().required("EIN is required"),
     taxId: Yup.string().required("Tax ID is required"),
   });
-
-const CompanyIdentifier = () => {
+  interface ICompanyIdentifierProp {
+    onSubmitProp?: (data: { legalName: string; commonName: string; ein: number; taxId: string }) => void;
+  }
+const CompanyIdentifier:React.FC<ICompanyIdentifierProp> = ({ onSubmitProp } ) => {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [formInfo, setFormInfo] = useState<ICompanyIdentifier>({});
     const [formCompleted, setFormCompleted] = useState(false);
@@ -42,7 +44,8 @@ const CompanyIdentifier = () => {
       const onSubmit = (data:any) => {
         setFormInfo(data);
         setFormCompleted(true);
-        setIsFormOpen(false)
+        setIsFormOpen(false);
+        onSubmitProp && onSubmitProp(data)
       }
 
     
@@ -78,6 +81,7 @@ const CompanyIdentifier = () => {
                             register={{...register("legalName")}}
                             placeholder="Atlas Global Logistics, LLC"
                             name="legalName"
+                            data-testid="legalName"
                             error={errors.legalName}
                             />
                             
@@ -87,29 +91,36 @@ const CompanyIdentifier = () => {
                             register={{...register("commonName")}}
                             placeholder="Atlas Global Logistics"
                             name="commonName"
+                            data-testid="commonName"
                             error={errors.commonName}
                             />
                         </div>
+                        <div className="w-full md:w-1/2">
                         <FormInput 
                         title="EIN"
                         register={{...register("ein")}}
                         placeholder="0000000"
                         name="ein"
                         type="number"
+                        data-testid="ein"
                         error={errors.ein}
                         />
+                        </div>
                     </div>
                 </div>
                 <div className='flex flex-col md:flex-row items-start justify-between w-full gap-3'>
                 <SideHeading title="Tax ID" subTitle="What is the tax information of your company?"/>
                     <div className='w-full px-2'>
+                        <div className='w-full md:w-1/2'>
                         <FormInput 
                         title="Tax ID"
                         register={{...register("taxId")}}
                         placeholder="000"
                         name="taxId"
+                        data-testid="taxId"
                         error={errors.taxId}
                         />
+                        </div>
                         <button
                         className="bg-blue-800 text-white px-4 py-1 mt-4"
                         type="submit"

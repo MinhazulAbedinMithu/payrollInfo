@@ -15,6 +15,14 @@ interface ICompanyDetails {
     inceptionDate?: string;
     formEntity?: string;
 }
+interface ICompanyDetailsProp {
+    onSubmitProp?: (data: { 
+        fiscalYear?: string;
+        noOfEmployee?: number;
+        inceptionDate?: string;
+        formEntity?: string;
+     }) => void;
+  }
 
 const validationSchemaCompanyIdentifier = Yup.object().shape({
     fiscalYear: Yup.string().required("Fiscal Year is required"),
@@ -23,7 +31,7 @@ const validationSchemaCompanyIdentifier = Yup.object().shape({
     formEntity: Yup.string().required("Form of Entity is required"),
   });
 
-const CompanyDetails = () => {
+const CompanyDetails:React.FC<ICompanyDetailsProp> = ({onSubmitProp}) => {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [formInfo, setFormInfo] = useState<ICompanyDetails>({});
     const [formCompleted, setFormCompleted] = useState(false);
@@ -42,7 +50,10 @@ const CompanyDetails = () => {
       const onSubmit = (data:any) => {
         setFormInfo(data);
         setFormCompleted(true);
-        setIsFormOpen(false)
+        setIsFormOpen(false);
+        console.log(data);
+        
+        onSubmitProp && onSubmitProp(data)
       }
 
     
@@ -75,6 +86,7 @@ const CompanyDetails = () => {
                             register={{...register("fiscalYear")}}
                             placeholder=""
                             name="fiscalYear"
+                            data-testid="fiscalYear"
                             error={errors.fiscalYear}
                             />
                             
@@ -85,6 +97,7 @@ const CompanyDetails = () => {
                             placeholder=""
                             name="noOfEmployee"
                             type="number"
+                            data-testid="noOfEmployee"
                             error={errors.noOfEmployee}
                             />
                             <FormInput 
@@ -93,12 +106,13 @@ const CompanyDetails = () => {
                         placeholder=""
                         name="inceptionDate"
                         type="date"
+                        data-testid="inceptionDate"
                         error={errors.inceptionDate}
                         />
 
                         <div className='pt-2'>
                             <h4 className=" font-medium">Form of Entity <sup className='text-red-700'>*</sup> </h4>
-                            <select id="formEntity" {...register("formEntity")} className={`${errors.formEntity ? "border-red-500" : ""} border px-3 py-2 text-xl rounded-xl bg-transparent w-full my-4`}>
+                            <select id="formEntity" data-testid="formEntity" {...register("formEntity")} className={`${errors.formEntity ? "border-red-500" : ""} border px-3 py-2 text-xl rounded-xl bg-transparent w-full my-4`}>
                                 <option value="sadfsdf">sadfasdf</option>
                                 <option value="sadfsdf">sadfasdf</option>
                                 <option value="sadfsdf">sadfasdf</option>
