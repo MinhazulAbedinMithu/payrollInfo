@@ -16,12 +16,7 @@ interface ICompanyDetails {
     formEntity?: string;
 }
 interface ICompanyDetailsProp {
-    onSubmitProp?: (data: { 
-        fiscalYear?: string;
-        noOfEmployee?: number;
-        inceptionDate?: string;
-        formEntity?: string;
-     }) => void;
+    onSubmitProp?: (data: { fiscalYear: string; noOfEmployee: number; inceptionDate: string; formEntity: string }) => void;
   }
 
 const validationSchemaCompanyIdentifier = Yup.object().shape({
