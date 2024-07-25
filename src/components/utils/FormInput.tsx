@@ -9,6 +9,7 @@ type FormInputProps = {
   value?: string;
   error?: any;
   name?: any;
+  type?:any;
   register?: UseFormRegisterReturn;
 };
 
@@ -21,20 +22,22 @@ const FormInput: React.FC<FormInputProps> = ({
   error,
   register,
   name,
+  type="string",
   ...rest
 }) => {
   return (
     <>
     {title ? <div className="pt-2">
-        {title && <h4 className=" font-medium">{title}</h4>}
+        {title && <h4 className=" font-medium">{title} <sup className='text-red-700'>*</sup> </h4>}
         <div className={`gap-6 py-4`}>
         <input
             className={`${
             error ? "border-red-500" : ""
-            } border px-3 py-2 rounded-xl bg-transparent`}
+            } border px-3 py-2 rounded-xl bg-transparent w-full`}
             placeholder={placeholder}
             onChange={onChange}
             value={value}
+            type={type}
             name={name}
             {...register} // Registering the input with react-hook-form
             {...rest}

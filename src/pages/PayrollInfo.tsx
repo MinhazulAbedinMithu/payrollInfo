@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import PayrollProvider from '../components/PayrollProviderC';
+import PayrollProvider from '../components/PayrollProvider';
 
 
 const PayrollProvider2: React.FC = () => <div className="p-4">Service2 Page</div>;

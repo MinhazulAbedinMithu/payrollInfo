@@ -1,7 +1,7 @@
 import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { act } from "react";
-import PayrollProvider from "../components/PayrollProviderC";
+import PayrollProvider from "../components/PayrollProvider";
 import '@testing-library/jest-dom/extend-expect';
 
 describe("PayrollProvider", () => {

@@ -63,6 +63,15 @@ const sidebarData: SidebarItem[] = [
     icon: demoIcon,
   },
   {
+    title: "Core Company Details",
+    slug: "/company",
+    menuItems: [
+      { title: "Company Information", slug: "/company/info", icon: demoIcon2 },
+      { title: "Company Contacts", slug: "/company/contacts", icon: demoIcon2 },
+    ],
+    icon: demoIcon,
+  },
+  {
     title: "Payroll Information",
     slug: "/payroll",
     menuItems: [
@@ -114,7 +123,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isExpanded, toggleSidebar }) => {
   return (
     <div
       className={`bg-white text-black border-e shadow h-full transition-all duration-300 ${
-        isExpanded ? "w-64" : "w-20"
+        isExpanded ? "w-72" : "w-20"
       }`}
     >
       <div className="border-b">

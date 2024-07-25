@@ -6,6 +6,7 @@ import Services from './pages/Services';
 import PayrollInfo from './pages/PayrollInfo';
 import Categories from './pages/Categories';
 import Sidebar from './components/Sidebar';
+import Company from './pages/Company';
 
 const App: React.FC = () => {
   const [isSidebarExpanded, setSidebarExpanded] = useState<boolean>(true);
@@ -22,6 +23,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/services/*" element={<Services />} />
+            <Route path="/company/*" element={<Company />} />
             <Route path="/payroll/*" element={<PayrollInfo />} />
             <Route path="/categories/*" element={<Categories />} />
           </Routes>

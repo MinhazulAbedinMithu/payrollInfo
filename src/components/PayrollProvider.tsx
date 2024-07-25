@@ -8,6 +8,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import TextWithDots from "./utils/TextWithDots";
 import EditIcon from "./utils/EditIcon";
+import FormInput from "./utils/FormInput";
+import SideHeading from "./SideHeading";
 
 interface payrollForInHouse {
   payrollType: string;
@@ -16,13 +18,13 @@ interface payrollForInHouse {
 
 interface PayrollInfo {
   payrollType?: string;
-  payrollSoftware?: string;
+  payrollValue?: string;
   payrollCompanyName?: string;
   verified?: Boolean;
   payrollCompanyContact?: string;
   payrollCompanyEmail?: string;
   payrollCompanyPhone?: string;
-  payrollCompanyInformation?: string;
+  payrollInformation?: string;
 }
 
 const payrollInfoData = {
@@ -59,14 +61,12 @@ const payrollInfoData = {
 
 const PayrollProvider: React.FC = () => {
   const [payrollType, setPayrollType] = useState("");
-  const [payrollValue, setPayrollValue] = useState("");
   const [payrollStep, setPayrollStep] = useState(0);
   const [payrollInfo, setPayrollInfo] = useState<PayrollInfo>({});
   const [verified, setVerified] = useState(false);
-  const [companyContact, setCompanyContact] = useState("");
-  const [companyPhone, setCompanyPhone] = useState("");
-  const [companyEmail, setCompanyEmail] = useState("");
-  const [selectedOption, setSelectedOption] = useState("");
+
+  
+  
 
   const [isFormOpen, setIsFormOpen] = useState(false);
 
@@ -106,13 +106,15 @@ const PayrollProvider: React.FC = () => {
 
   const validationSchemaPayrollCompany = Yup.object().shape({
     payrollValue: Yup.string().required("This field is required"),
-    contact: Yup.string().required("Payroll Company Contact is required"),
-    phone: Yup.string().required("Payroll Company Phone is required"),
-    email: Yup.string().required("Payroll Company Email is required"),
+    payrollCompanyContact: Yup.string().required("Payroll Company Contact is required"),
+    payrollCompanyPhone: Yup.string().required("Payroll Company Phone is required"),
+    payrollCompanyEmail: Yup.string().email().required("Payroll Company Email is required"),
     payrollInformation: Yup.string().required(
       "Payroll Information is required"
     ),
   });
+
+  //Verified Submission
 
   const handleSubmittion = () => {
     setPayrollInfo({ ...payrollInfo, verified });
@@ -121,34 +123,6 @@ const PayrollProvider: React.FC = () => {
       "payroll",
       JSON.stringify({ ...payrollInfo, verified })
     );
-  };
-
-  const handleSubmits = () => {
-    if (payrollType === "in-house") {
-      const payroll: payrollForInHouse = {
-        payrollType,
-        payrollSoftware: payrollValue,
-      };
-      setPayrollInfo(payroll);
-      setPayrollStep(1);
-      console.log({ payroll });
-      //   localStorage.setItem("payroll", JSON.stringify(payroll));
-    } else {
-      const payroll: PayrollInfo = {
-        payrollType,
-        payrollCompanyName: payrollValue,
-        payrollCompanyContact: companyContact,
-        payrollCompanyEmail: companyPhone,
-        payrollCompanyPhone: companyEmail,
-
-      };
-
-      setPayrollInfo(payroll);
-      setPayrollStep(1);
-      console.log({ payroll });
-
-      //   localStorage.setItem("payroll", JSON.stringify(payroll));
-    }
   };
   const {
     register,
@@ -162,15 +136,12 @@ const PayrollProvider: React.FC = () => {
     ),
   });
 
-  const handleOptionChange = (event: any) => {
-    setSelectedOption(event.target.value);
-  };
   const onSubmit = (data: any) => {
-    console.log({ data });
+    // console.log({ data });
     if (payrollType === "in-house") {
       const payroll: payrollForInHouse = {
         payrollType,
-        payrollSoftware: payrollValue,
+        ...data
       };
       setPayrollInfo(payroll);
       setPayrollStep(1);
@@ -178,12 +149,12 @@ const PayrollProvider: React.FC = () => {
     } else {
       const payroll: PayrollInfo = {
         payrollType,
-        payrollCompanyName: payrollValue,
-        payrollCompanyContact: companyContact,
-        payrollCompanyEmail: companyPhone,
-        payrollCompanyPhone: companyEmail,
-        payrollCompanyInformation: selectedOption
+        ...data
       };
+      
+
+      
+      
 
       setPayrollInfo(payroll);
       setPayrollStep(1);
@@ -200,77 +171,41 @@ const PayrollProvider: React.FC = () => {
     payrollCompanyContent = (
       <>
         <div className=" w-full flex flex-col my-4 md:flex-row items-start justify-start gap-3 md:gap-14">
-          <div className="my-4 min-w-[225px]">
-            <h4 className="text-blue-600 font-semibold">
-              {payrollInfoData.payrollType.title}
-            </h4>
-            <p className="text-gray-500">Tell us more about your payroll</p>
-          </div>
+          <SideHeading title={payrollInfoData.payrollType.title} subTitle="long text. Tell us more about your payroll. Tell us more about your payroll" />
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid grid-cols-2 gap-4">
-              <div className="pt-2">
-                <h4 className=" font-medium">Payroll Company Contact </h4>
-                <div className="gap-6 py-4">
-                  <input
-                    className={`${
-                      errors.contact ? "border-red-500" : ""
-                    } border px-3 py-2 rounded-xl bg-transparent`}
-                    {...register("contact")}
-                    placeholder="Payroll Company Contact"
-                    onChange={(e: any) => setCompanyContact(e.target.value)}
-                  />
-                  {errors.contact && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.contact.message as string}{" "}
-                    </p>
-                  )}
-                </div>
-              </div>
-              <div className="pt-2">
-                <h4 className=" font-medium">Payroll Company Phone </h4>
-                <div className=" gap-6 py-4">
-                  <input
-                    className={`${
-                      errors.phone ? "border-red-500" : ""
-                    } border px-3 py-2 rounded-xl bg-transparent`}
-                    {...register("phone")}
-                    type="number"
-                    placeholder="Payroll Company Phone"
-                    onChange={(e: any) => setCompanyPhone(e.target.value)}
-                  />
-                  {errors.phone && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.phone.message as string}{" "}
-                    </p>
-                  )}
-                </div>
-              </div>
-              <div className="pt-2">
-                <h4 className=" font-medium">Payroll Company Email </h4>
-
-                <div className="gap-6 py-4">
-                  <input
-                    className={`${
-                      errors.email ? "border-red-500" : ""
-                    } border px-3 py-2 rounded-xl bg-transparent`}
-                    {...register("email")}
-                    placeholder="Payroll Company Email"
-                    onChange={(e: any) => setCompanyEmail(e.target.value)}
-                  />
-                  {errors.email && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.email.message as string}{" "}
-                    </p>
-                  )}
-                </div>
-              </div>
+             
+              <FormInput 
+                title="Payroll Company Contact"
+                register={{...register("payrollCompanyContact")}}
+                placeholder="Payroll Company Contact"
+                name="payrollCompanyContact"
+                error={errors.payrollCompanyContact}
+                />
+                
+             
+              <FormInput 
+                title="Payroll Company Phone"
+                register={{...register("payrollCompanyPhone")}}
+                placeholder="Payroll Company Phone"
+                name="payrollCompanyPhone"
+                error={errors.payrollCompanyPhone}
+                />
+              
+              <FormInput 
+                title="Payroll Company Email"
+                register={{...register("payrollCompanyEmail")}}
+                placeholder="Payroll Company Email"
+                name="payrollCompanyEmail"
+                error={errors.payrollCompanyEmail}
+                />
             </div>
             <div className="">
               <h4 className="font-medium">
                 Payroll Information <sup>*</sup>
               </h4>
               <div className="flex items-center justify-start gap-6 pt-4">
-                <div
+                <div  
                   className={`${
                     errors.payrollInformation ? "border-red-500" : ""
                   } border px-3 py-2 rounded-xl gap-4`}
@@ -280,7 +215,6 @@ const PayrollProvider: React.FC = () => {
                     id="payrollInformationYes"
                     {...register("payrollInformation")}
                     value="Yes"
-                    onChange={handleOptionChange}
                   />
                   <label htmlFor="payrollInformationYes"> Yes</label>
                 </div>
@@ -294,7 +228,6 @@ const PayrollProvider: React.FC = () => {
                     id="payrollInformationNo"
                     {...register("payrollInformation")}
                     value="No"
-                    onChange={handleOptionChange}
                   />
                   <label htmlFor="payrollInformationNo">No</label>
                 </div>
@@ -308,6 +241,7 @@ const PayrollProvider: React.FC = () => {
             <button
               className="bg-blue-500 text-white px-4 py-1 mt-4"
               type="submit"
+              data-testid="submissionId"
             >
               Submit
             </button>
@@ -333,12 +267,8 @@ const PayrollProvider: React.FC = () => {
     );
     payrollContentOnSteps = (
       <>
-        <div className="min-w-[225px]">
-          <h4 className="text-blue-600 font-semibold">
-            {payrollInfoData.payrollType.title}
-          </h4>
-          <p className="text-gray-500">Tell us more about your payroll</p>
-        </div>
+        
+        <SideHeading title={payrollInfoData.payrollType.title}/>
         {
           !isFormOpen ? 
           <div className="flex items-center justify-start gap-5 flex-col md:flex-row">
@@ -378,37 +308,20 @@ const PayrollProvider: React.FC = () => {
 
           <form onSubmit={handleSubmit(onSubmit)}>
             {payrollType === "in-house" ? (
-              <div>
-                <input
-                  className={`${
-                    errors.payrollValue ? "border-red-500" : ""
-                  } border px-3 py-2 rounded-xl bg-transparent`}
-                  {...register("payrollValue")}
-                  placeholder="Software ABC"
-                  onChange={(e: any) => setPayrollValue(e.target.value)}
-                />
-                {errors.payrollValue && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.payrollValue.message as string}{" "}
-                  </p>
-                )}
-              </div>
+              
+              <FormInput
+              register={{...register("payrollValue")}}
+              placeholder="Software ABC"
+              name="payrollSoftware"
+              error={errors.payrollValue}
+              />
             ) : payrollType === "payroll company" ? (
-              <div>
-                <input
-                  className={`${
-                    errors.payrollValue ? "border-red-500" : ""
-                  } border px-3 py-2 rounded-xl bg-transparent`}
-                  {...register("payrollValue")}
-                  placeholder="Payroll Excellence"
-                  onChange={(e: any) => setPayrollValue(e.target.value)}
-                />
-                {errors.payrollValue && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.payrollValue.message as string}{" "}
-                  </p>
-                )}
-              </div>
+              
+              <FormInput
+                register={{...register("payrollValue")}}
+                placeholder="Payroll Excellence"
+                error={errors.payrollValue}
+              />
             ) : null}
             {payrollType !== "payroll company" && (
               <button
@@ -429,17 +342,13 @@ const PayrollProvider: React.FC = () => {
       <>
         {payrollInfo?.payrollType !== "in-house" && (
           <div className="flex flex-col my-4 md:flex-row items-start justify-start gap-3 md:gap-14 w-full">
-            <div className="my-4 min-w-[225px]">
-              <h4 className="text-blue-600 font-semibold">
-                {payrollInfoData.payrollType.title}
-              </h4>
-              <p className="text-gray-500">Tell us more about your payroll</p>
-            </div>
+           
+            <SideHeading title={payrollInfoData.payrollType.title} />
             <div className="w-full">
-            <TextWithDots leftText="Payroll Company Name" rightText={payrollInfo?.payrollCompanyContact as string} />
+            <TextWithDots leftText="Payroll Company Contact" rightText={payrollInfo?.payrollCompanyContact as string} />
               <TextWithDots leftText="Payroll Company Email" rightText={payrollInfo?.payrollCompanyEmail as string} />
               <TextWithDots leftText="Payroll Company Phone" rightText={payrollInfo?.payrollCompanyPhone as string} />
-              <TextWithDots leftText="Payroll Information" rightText={payrollInfo?.payrollCompanyInformation as string} />
+              <TextWithDots leftText="Payroll Information" rightText={payrollInfo?.payrollInformation as string} />
             </div>
           </div>
         )}
@@ -484,25 +393,21 @@ const PayrollProvider: React.FC = () => {
     payrollContentOnSteps = (
       <>
         <div className="flex flex-col my-4 md:flex-row items-start justify-start gap-3 md:gap-14 w-full">
-          <div className="my-4 min-w-[225px]">
-            <h4 className="text-blue-600 font-semibold">
-              {payrollInfoData.payrollType.title}
-            </h4>
-            <p className="text-gray-500">Tell us more about your payroll</p>
-          </div>
+          
+          <SideHeading title={payrollInfoData.payrollType.title} />
           <div className="w-full">
             {payrollInfo?.payrollType === "in-house" ? (
               <div className="flex flex-col w-full">
                 
                 <TextWithDots leftText="Payroll Type" rightText={payrollInfo?.payrollType as string} />
-                <TextWithDots leftText="Payroll Software" rightText={payrollInfo?.payrollSoftware as string} />
+                <TextWithDots leftText="Payroll Software" rightText={payrollInfo?.payrollValue as string} />
 
               </div>
             ) : (
               <div className="w-full">
                 
                 <TextWithDots leftText="Payroll Type" rightText={payrollInfo?.payrollType as string} />
-                <TextWithDots leftText="Payroll Company Name" rightText={payrollInfo?.payrollCompanyName as string} />
+                <TextWithDots leftText="Payroll Company Name" rightText={payrollInfo?.payrollValue as string} />
               </div>
             )}
           </div>
@@ -515,17 +420,13 @@ const PayrollProvider: React.FC = () => {
       <>
         {payrollInfo?.payrollType !== "in-house" && (
           <div className="flex flex-col my-4 md:flex-row items-start justify-start gap-3 md:gap-14 w-full">
-            <div className="my-4 min-w-[225px]">
-              <h4 className="text-blue-600 font-semibold">
-                {payrollInfoData.payrollType.title}
-              </h4>
-              <p className="text-gray-500">Tell us more about your payroll</p>
-            </div>
+            
+            <SideHeading title={payrollInfoData.payrollType.title}/>
             <div className="w-full">
-              <TextWithDots leftText="Payroll Company Name" rightText={payrollInfo?.payrollCompanyContact as string} />
+              <TextWithDots leftText="Payroll Company Contact" rightText={payrollInfo?.payrollCompanyContact as string} />
               <TextWithDots leftText="Payroll Company Email" rightText={payrollInfo?.payrollCompanyEmail as string} />
               <TextWithDots leftText="Payroll Company Phone" rightText={payrollInfo?.payrollCompanyPhone as string} />
-              <TextWithDots leftText="Payroll Information" rightText={payrollInfo?.payrollCompanyInformation as string} />
+              <TextWithDots leftText="Payroll Information" rightText={payrollInfo?.payrollInformation as string} />
               
             </div>
           </div>
@@ -565,22 +466,18 @@ const PayrollProvider: React.FC = () => {
     payrollContentOnSteps = (
       <>
         <div className="w-full flex flex-col my-4 md:flex-row items-start justify-start gap-3 md:gap-14">
-          <div className="my-4 min-w-[225px]">
-            <h4 className="text-blue-600 font-semibold">
-              {payrollInfoData.payrollType.title}
-            </h4>
-            <p className="text-gray-500">Tell us more about your payroll</p>
-          </div>
+          
+          <SideHeading title={payrollInfoData.payrollType.title} />
           <div className="w-full">
             {payrollInfo?.payrollType === "in-house" ? (
               <div className="flex flex-col w-full">
                 <TextWithDots leftText="Payroll Type" rightText={payrollInfo?.payrollType} />
-                <TextWithDots leftText="Payroll Software" rightText={payrollInfo?.payrollSoftware as string} />
+                <TextWithDots leftText="Payroll Software" rightText={payrollInfo?.payrollValue as string} />
               </div>
             ) : (
               <div className="w-full">
                 <TextWithDots leftText="Payroll Type" rightText={payrollInfo?.payrollType as string} />
-                <TextWithDots leftText="Payroll Company Name" rightText={payrollInfo?.payrollCompanyName as string} />
+                <TextWithDots leftText="Payroll Company Name" rightText={payrollInfo?.payrollValue as string} />
               </div>
             )}
           </div>
