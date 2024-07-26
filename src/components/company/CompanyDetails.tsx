@@ -40,7 +40,7 @@ const CompanyDetails:React.FC<ICompanyDetailsProp> = ({onSubmitProp, detailsInfo
       });
 
       const onSubmit = (data:any) => {
-        setDetailsInfo(data);
+        setDetailsInfo && setDetailsInfo(data);
         setFormCompleted(true);
         setIsFormOpen(false);
         console.log(data);

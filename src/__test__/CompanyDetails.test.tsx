@@ -50,12 +50,14 @@ describe("CompanyDetails", () => {
 
     // Wait for the form submission to complete (if any async operations)
     await waitFor(() => {
-      expect({
+      expect(
+        {
         fiscalYear: 'Fiscal year',
         noOfEmployee: 45,
         inceptionDate: '2024-07-24',
         formEntity: 'Test formEntity'
-      }).toEqual({
+      }
+    ).toEqual({
         fiscalYear: 'Fiscal year',
         noOfEmployee: 45,
         inceptionDate: '2024-07-24',

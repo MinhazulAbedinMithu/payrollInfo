@@ -3,7 +3,7 @@ import CompanyIdentifier from './CompanyIdentifier'
 import CompanyDetails from './CompanyDetails'
 import Checkbox from '../utils/CheckBox'
 
-interface ICompanyIdentifier {
+export interface ICompanyIdentifier {
   legalName?: string;
   commonName?: string;
   ein?: number;

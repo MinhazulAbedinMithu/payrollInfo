@@ -8,6 +8,7 @@ import FormInput from '../utils/FormInput';
 import TextWithDots from '../utils/TextWithDots';
 import { SiTicktick } from 'react-icons/si';
 import { FaEdit } from 'react-icons/fa';
+import { ICompanyIdentifier } from './CompanyInfo';
 
 
 
@@ -20,7 +21,7 @@ const validationSchemaCompanyIdentifier = Yup.object().shape({
   interface ICompanyIdentifierProp {
     onSubmitProp?: (data: { legalName: string; commonName: string; ein: number; taxId: string }) => void;
     identifyInfo?:any;
-    setIdentifyInfo?: any
+    setIdentifyInfo?: React.Dispatch<React.SetStateAction<any>>
   }
 const CompanyIdentifier:React.FC<ICompanyIdentifierProp> = ({ onSubmitProp,identifyInfo, setIdentifyInfo } ) => {
     const [isFormOpen, setIsFormOpen] = useState(false);
@@ -39,7 +40,7 @@ const CompanyIdentifier:React.FC<ICompanyIdentifierProp> = ({ onSubmitProp,ident
       });
 
       const onSubmit = (data:any) => {
-        setIdentifyInfo(data);
+        setIdentifyInfo && setIdentifyInfo(data);
         setFormCompleted(true);
         setIsFormOpen(false);
         onSubmitProp && onSubmitProp(data)
