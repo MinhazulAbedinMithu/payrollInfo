@@ -9,12 +9,7 @@ import TextWithDots from '../utils/TextWithDots';
 import { SiTicktick } from 'react-icons/si';
 import { FaEdit } from 'react-icons/fa';
 
-interface ICompanyIdentifier {
-    legalName?: string;
-    commonName?: string;
-    ein?: number;
-    taxId?: string;
-}
+
 
 const validationSchemaCompanyIdentifier = Yup.object().shape({
     legalName: Yup.string().required("Legal name is required"),
@@ -24,10 +19,12 @@ const validationSchemaCompanyIdentifier = Yup.object().shape({
   });
   interface ICompanyIdentifierProp {
     onSubmitProp?: (data: { legalName: string; commonName: string; ein: number; taxId: string }) => void;
+    identifyInfo?:any;
+    setIdentifyInfo?: any
   }
-const CompanyIdentifier:React.FC<ICompanyIdentifierProp> = ({ onSubmitProp } ) => {
+const CompanyIdentifier:React.FC<ICompanyIdentifierProp> = ({ onSubmitProp,identifyInfo, setIdentifyInfo } ) => {
     const [isFormOpen, setIsFormOpen] = useState(false);
-    const [formInfo, setFormInfo] = useState<ICompanyIdentifier>({});
+    // const [formInfo, setFormInfo] = useState<ICompanyIdentifier>({});
     const [formCompleted, setFormCompleted] = useState(false);
 
 
@@ -42,7 +39,7 @@ const CompanyIdentifier:React.FC<ICompanyIdentifierProp> = ({ onSubmitProp } ) =
       });
 
       const onSubmit = (data:any) => {
-        setFormInfo(data);
+        setIdentifyInfo(data);
         setFormCompleted(true);
         setIsFormOpen(false);
         onSubmitProp && onSubmitProp(data)
@@ -141,15 +138,15 @@ const CompanyIdentifier:React.FC<ICompanyIdentifierProp> = ({ onSubmitProp } ) =
                 <div className='flex flex-col md:flex-row items-start justify-between w-full gap-3'>
                     <SideHeading title="Company Name"/>
                     <div className='w-full pt-2'>
-                    <TextWithDots leftText="Legal Name" rightText={formInfo?.legalName as string} />
-                    <TextWithDots leftText="Common Name" rightText={formInfo?.commonName as string} />
-                    <TextWithDots leftText="EIN" rightText={formInfo?.ein?.toString() as string} />
+                    <TextWithDots leftText="Legal Name" rightText={identifyInfo?.legalName as string} />
+                    <TextWithDots leftText="Common Name" rightText={identifyInfo?.commonName as string} />
+                    <TextWithDots leftText="EIN" rightText={identifyInfo?.ein?.toString() as string} />
                     </div>
                 </div>
                 <div className='flex flex-col md:flex-row items-start justify-between w-full gap-3'>
                     <SideHeading title="Tax ID" />
                     <div className='w-full pt-2'>
-                    <TextWithDots leftText="Tax ID" rightText={formInfo?.taxId as string} />
+                    <TextWithDots leftText="Tax ID" rightText={identifyInfo?.taxId as string} />
                     </div>
                 </div>
                 

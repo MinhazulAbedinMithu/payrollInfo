@@ -9,14 +9,11 @@ import TextWithDots from '../utils/TextWithDots';
 import { SiTicktick } from 'react-icons/si';
 import { FaEdit } from 'react-icons/fa';
 
-interface ICompanyDetails {
-    fiscalYear?: string;
-    noOfEmployee?: number;
-    inceptionDate?: string;
-    formEntity?: string;
-}
+
 interface ICompanyDetailsProp {
     onSubmitProp?: (data: { fiscalYear: string; noOfEmployee: number; inceptionDate: string; formEntity: string }) => void;
+    detailsInfo?:any;
+    setDetailsInfo?:any;
   }
 
 const validationSchemaCompanyIdentifier = Yup.object().shape({
@@ -26,9 +23,9 @@ const validationSchemaCompanyIdentifier = Yup.object().shape({
     formEntity: Yup.string().required("Form of Entity is required"),
   });
 
-const CompanyDetails:React.FC<ICompanyDetailsProp> = ({onSubmitProp}) => {
+const CompanyDetails:React.FC<ICompanyDetailsProp> = ({onSubmitProp, detailsInfo, setDetailsInfo}) => {
     const [isFormOpen, setIsFormOpen] = useState(false);
-    const [formInfo, setFormInfo] = useState<ICompanyDetails>({});
+    // const [formInfo, setFormInfo] = useState<ICompanyDetails>({});
     const [formCompleted, setFormCompleted] = useState(false);
 
 
@@ -43,7 +40,7 @@ const CompanyDetails:React.FC<ICompanyDetailsProp> = ({onSubmitProp}) => {
       });
 
       const onSubmit = (data:any) => {
-        setFormInfo(data);
+        setDetailsInfo(data);
         setFormCompleted(true);
         setIsFormOpen(false);
         console.log(data);
@@ -146,10 +143,10 @@ const CompanyDetails:React.FC<ICompanyDetailsProp> = ({onSubmitProp}) => {
                 <div className='flex flex-col md:flex-row items-start justify-between w-full gap-3'>
                     <SideHeading title="Company Name"/>
                     <div className='w-full pt-2'>
-                    <TextWithDots leftText="Legal Name" rightText={formInfo?.fiscalYear as string} />
-                    <TextWithDots leftText="Common Name" rightText={formInfo?.noOfEmployee?.toString() as string} />
-                    <TextWithDots leftText="EIN" rightText={formInfo?.inceptionDate as string} />
-                    <TextWithDots leftText="Tax ID" rightText={formInfo?.formEntity as string} />
+                    <TextWithDots leftText="Legal Name" rightText={detailsInfo?.fiscalYear as string} />
+                    <TextWithDots leftText="Common Name" rightText={detailsInfo?.noOfEmployee?.toString() as string} />
+                    <TextWithDots leftText="EIN" rightText={detailsInfo?.inceptionDate as string} />
+                    <TextWithDots leftText="Tax ID" rightText={detailsInfo?.formEntity as string} />
                     </div>
                 </div>
                 
