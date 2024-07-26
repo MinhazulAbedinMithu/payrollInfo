@@ -71,7 +71,7 @@ const CompanyIdentifier:React.FC<ICompanyIdentifierProp> = ({ onSubmitProp,ident
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center justify-start gap-3 md:gap-5 w-full">
                 <div className='flex flex-col md:flex-row items-start justify-between w-full gap-3'>
                     <SideHeading title="Company Name" subTitle="What is the name of your company?"/>
-                    <div>
+                    <div className='w-full px-2'>
                         <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-2">
                         <FormInput 
                             title="Legal Name"
