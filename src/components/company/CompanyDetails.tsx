@@ -18,7 +18,7 @@ interface ICompanyDetailsProp {
 
 const validationSchemaCompanyIdentifier = Yup.object().shape({
     fiscalYear: Yup.string().required("Fiscal Year is required"),
-    noOfEmployee: Yup.number().required("Number of Employees is required"),
+    noOfEmployee: Yup.number().typeError('Number of Employees must be a valid number').required("Number of Employees is required"),
     inceptionDate: Yup.string().required("Inception date required"),
     formEntity: Yup.string().required("Form of Entity is required"),
   });

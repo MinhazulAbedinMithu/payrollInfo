@@ -8,14 +8,13 @@ import FormInput from '../utils/FormInput';
 import TextWithDots from '../utils/TextWithDots';
 import { SiTicktick } from 'react-icons/si';
 import { FaEdit } from 'react-icons/fa';
-import { ICompanyIdentifier } from './CompanyInfo';
 
 
 
 const validationSchemaCompanyIdentifier = Yup.object().shape({
     legalName: Yup.string().required("Legal name is required"),
     commonName: Yup.string().required("Common name is required"),
-    ein: Yup.number().required("EIN is required"),
+    ein: Yup.number().typeError('EIN must be a valid number').required("EIN is required"),
     taxId: Yup.string().required("Tax ID is required"),
   });
   interface ICompanyIdentifierProp {
