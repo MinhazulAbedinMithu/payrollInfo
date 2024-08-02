@@ -1,6 +1,5 @@
-// src/features/dataSlice.ts
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 
 interface DataState {
   data: any;
@@ -15,8 +14,9 @@ const initialState: DataState = {
 };
 
 export const fetchData = createAsyncThunk('data/fetchData', async () => {
-  const response = await axios.get('https://payroll-api-three.vercel.app/fetch-salesforce-data');
-  return JSON.parse(response.data);
+    const response = await fetch('https://payroll-api-three.vercel.app/fetch-salesforce-data');
+    const data = await response.json();
+  return JSON.parse(data)
 });
 
 const dataSlice = createSlice({

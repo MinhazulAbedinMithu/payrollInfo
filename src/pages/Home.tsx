@@ -16,7 +16,10 @@ const Home: React.FC = () => {
   return <div className="p-4">
     Home Page
     {status === 'loading' && <p>Loading...</p>}
-      {status === 'succeeded' && <pre>{JSON.stringify(data, null, 2)}</pre>}
+      {status === 'succeeded' && <div>
+        <h4>Salesforce data</h4>
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+        </div>}
       {status === 'failed' && <p>Error: {error}</p>}
     </div>;
 };
