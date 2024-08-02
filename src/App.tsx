@@ -29,6 +29,7 @@ const App: React.FC = () => {
           </Routes>
         </div>
       </div>
+      
     </Router>
   );
 };
