@@ -16,7 +16,8 @@ const initialState: DataState = {
 export const fetchData = createAsyncThunk('data/fetchData', async () => {
     const response = await fetch('https://payroll-api-three.vercel.app/fetch-salesforce-data');
     const data = await response.json();
-  return JSON.parse(data)
+  // return JSON.parse(data)
+  return data;
 });
 
 const dataSlice = createSlice({
